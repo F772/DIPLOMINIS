@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>Mano Apžvalgos</h2>
+    {% if reviews %}
+        <ul class="list-group">
+            {% for review in reviews %}
+                <li class="list-group-item">
+                    <h5><a href="{% url 'movie_detail' review.movie.id %}">{{ review.movie.title }}</a></h5>
+                    <p>⭐ Įvertinimas: {{ review.rating }}/5</p>
+                    <p>{{ review.content }}</p>
+                    <small>Paskelbta: {{ review.created_at }}</small>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Dar neturite parašytų apžvalgų.</p>
+    {% endif %}
+</div>
+{% endblock %}

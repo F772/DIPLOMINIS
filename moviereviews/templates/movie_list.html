@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<h1>Filmai</h1>
+
+<form method="get">
+    <label for="genre">Žanras:</label>
+    <select name="genre" id="genre">
+        <option value="">Visi</option>
+        {% for genre in genres %}
+        <option value="{{ genre.id }}" {% if genre.id|stringformat:"s" == selected_genre %}selected{% endif %}>{{ genre.name }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Filtruoti</button>
+
+    <label for="year">Metai:</label>
+    <select name="year">
+        <option value="">Visi</option>
+        {% for year in years %}
+        <option value="{{ year }}" {% if year|stringformat:"s" == selected_year %}selected{% endif %}>{{ year }}</option>
+        {% endfor %}
+    </select>
+
+    <button type="submit">Filtruoti</button>
+</form>
+
+<div class="container">
+    <div class="row row-cols-5 g-2">
+        {% for movie in movies %}
+        <div class="col">
+            <a href="{% url 'movie_detail' movie.id %}">
+                <img src="{{ movie.image.url }}" alt="{{ movie.title }}" class="img-fluid" style="width: 100%; height: 250px; object-fit: contain;">
+                <!-- Filmo pavadinimas ir metai -->
+                <div class="text-center mt-2">
+                    <h6>{{ movie.title }} ({{ movie.year }})</h6>
+                </div>
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="lt">
+<head>
+    <meta charset="UTF-8">
+    <title>Pagrindinis</title>
+</head>
+<body>
+    <h1>Sveiki atvykę į Filmo Apžvalgų Sistemą!</h1>
+
+    {% if user.is_authenticated %}
+        <p>Prisijungęs kaip: {{ user.username }}</p>
+        <a href="{% url 'logout' %}">Atsijungti</a>
+    {% else %}
+        <a href="{% url 'login' %}">Prisijungti</a> |
+        <a href="{% url 'register' %}">Registruotis</a>
+    {% endif %}
+</body>
+</html>

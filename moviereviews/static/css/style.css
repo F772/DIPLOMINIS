@@ -1,0 +1,115 @@
+body {
+    background-color: #f5e8cb;
+}
+
+.sidebar-nav {
+    list-style: none;
+    margin-top: 10px;
+}
+
+.card {
+    min-height: 450px;
+    width: 100%;
+}
+
+.card-body{
+    height: 25%;
+}
+
+.card img{
+    height: 75%;
+    object-fit: contain;
+}
+
+.movie-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px; /* Tarpas tarp filmų */
+    justify-content: center;
+}
+
+.movie-item {
+    width: 200px; /* Visos kortelės vienodo pločio */
+    text-align: center;
+    background: #f8f9fa;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.movie-item img {
+    width: 100%; /* Automatiškai užpildo kortelę */
+    height: 300px; /* Priverstinis aukštis visiems */
+    object-fit: cover; /* Apkarpo ir išlaiko proporcijas */
+    border-radius: 5px;
+}
+
+.movie-item p {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+
+.movie-detail {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review {
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.review strong {
+    font-size: 1.2em;
+    color: #333;
+}
+
+.review p {
+    font-size: 1em;
+    color: #555;
+}
+
+.reviews h2 {
+    color: #444;
+    margin-top: 40px;
+}
+
+.review ul {
+    list-style-type: none;
+    padding-left: 0;
+}
+
+.review ul li {
+    background: #f1f1f1;
+    margin: 5px 0;
+    padding: 8px;
+    border-radius: 5px;
+}
+
+.review a.btn {
+    margin-top: 7px;
+}
+
+.review hr {
+    margin-top: 20px;
+    border: 0;
+    border-top: 1px solid #ddd;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-success {
+    background-color: #28a745;
+    border-color: #28a745;
+}

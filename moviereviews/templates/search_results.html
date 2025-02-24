@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container">
+    <h2>🔍 Paieškos Rezultatai</h2>
+    {% if query %}
+        <p>Rezultatai užklausai: <strong>"{{ query }}"</strong></p>
+    {% endif %}
+    {% if results %}
+        <ul class="list-group">
+            {% for movie in results %}
+                <li class="list-group-item">
+                    <h5><a href="{% url 'movie_detail' movie.id %}">{{ movie.title }}</a></h5>
+                    <p>📅 Metai: {{ movie.year }}</p>
+                    <p>🎭 Žanras: {{ movie.display_genres }}</p>
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Filmų nerasta pagal šią užklausą.</p>
+    {% endif %}
+</div>
+{% endblock %}

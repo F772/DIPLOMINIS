@@ -1,0 +1,77 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h1>{{ movie.title }}</h1>
+<div class="movie-detail">
+    {% if movie.image %}
+    <img src="{{ movie.image.url }}" alt="{{ movie.title }}" width="300"
+         style="max-width: 100%; height: auto; display: block; margin-bottom: 10px;">
+    {% else %}
+    <img src="{% static 'default_movie.jpg' %}" alt="Nėra nuotraukos" width="300"
+         style="max-width: 100%; height: auto; display: block; margin-bottom: 10px;">
+    {% endif %}
+
+    <p>{{ movie.description }}</p>
+    <p><strong>Metai:</strong> {{ movie.year }}</p>
+    <p><strong>Režisierius:</strong> {{ movie.director.name }}</p>
+
+    <h2>Žanrai:</h2>
+    <ul>
+        {% for genre in movie.genres.all %}
+        <li>{{ genre.name }}</li>
+        {% endfor %}
+    </ul>
+
+    <h2>IMDb Reitingas:</h2>
+    <p>
+        {% if imdb_rating %}
+        {{ imdb_rating }} ⭐
+        {% else %}
+        Nėra IMDb reitingo
+        {% endif %}
+    </p>
+
+    <h2>Apžvalgos:</h2>
+    <div class="reviews">
+        {% for review in reviews %}
+        <div class="review">
+            <strong>{{ review.title }}</strong> - {{ review.rating }}/5⭐
+            <p>{{ review.content }}</p>
+
+            <p>Patinka: {{ review.likes_count }} | Nepatinka: {{ review.dislikes_count }}</p>
+
+            {% if user.is_authenticated %}
+            <form method="post" action="{% url 'add_reaction' review.id 'like' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-success">👍 Patinka</button>
+            </form>
+
+            <form method="post" action="{% url 'add_reaction' review.id 'dislike' %}">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-outline-danger">👎 Nepatinka</button>
+            </form>
+            {% endif %}
+
+            <ul>
+                {% for comment in review.comments.all %}
+                <li><strong>{{ comment.user.username }}</strong>: {{ comment.content }}</li>
+                {% endfor %}
+            </ul>
+
+            {% if user.is_authenticated %}
+            <a href="{% url 'add_comment' review.id %}" class="btn btn-primary">Komentuoti</a>
+            {% endif %}
+
+        </div>
+        <hr>
+        {% endfor %}
+    </div>
+
+    {% if user.is_authenticated %}
+    <a href="{% url 'add_review' movie.id %}" class="btn btn-success">Parašyti apžvalgą</a>
+    {% else %}
+    <p>Norėdami parašyti apžvalgą, <a href="{% url 'login' %}">prisijunkite</a>.</p>
+    {% endif %}
+</div>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Rašyti komentarą</h1>
+
+<form method="post" action="{% url 'add_comment' review.id %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Komentuoti</button>
+</form>
+
+<a href="{% url 'movie_detail' review.movie.id %}">Grįžti į filmą</a>
+{% endblock %}
