@@ -118,11 +118,22 @@ class MyReviewsView(View):
 
 
 def home(request):
+    """
+    Ši funkcija atvaizduoja pagrindinį puslapį.
+
+    :param request: HttpRequest objektas, perduodamas į funkciją
+    :return: HttpResponse su užkrautu šablonu 'registration/home.html', kuris atvaizduoja pagrindinį puslapį
+    """
     return render(request,
                   'registration/home.html')
 
 
 def register(request):
+    """
+
+    :param request:
+    :return:
+    """
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
@@ -135,6 +146,15 @@ def register(request):
 
 
 def user_login(request):
+    """
+    Vartotojo registracijos funkcija.
+
+    Apdoroja registracijos formą, kurioje vartotojas gali sukurti naują paskyrą.
+    Jei formos duomenys yra teisingi, vartotojas užregistruojamas ir automatiškai prisijungiamas.
+
+    :param request: HttpRequest objektas, perduodamas į funkciją
+    :return: HttpResponse su užkrautu šablonu 'registration/register.html', kuriame pateikiama registracijos forma
+    """
     if request.method == 'POST':
         form = AuthenticationForm(request, data=request.POST)
         if form.is_valid():
@@ -148,11 +168,31 @@ def user_login(request):
 
 @login_required
 def user_logout(request):
+    """
+    Vartotojo atsijungimo funkcija.
+
+    Atsijungia nuo paskyros ir nukreipia vartotoją į prisijungimo puslapį.
+
+    :param request: HttpRequest objektas, perduodamas į funkciją
+    :return: HttpResponse, kuris nukreipia vartotoją į prisijungimo puslapį ('login')
+    """
     logout(request)
     return redirect('login')
 
 
 class RegisterView(View):
+    """
+    Vartotojo registracijos atvaizdavimo klasė.
+
+    Apdoroja GET ir POST užklausas, leidžiančias vartotojui užsiregistruoti.
+
+    GET užklausa atvaizduoja registracijos formą.
+    POST užklausa apdoroja pateiktą formą ir, jei ji galioja, sukuria naują vartotoją, tada nukreipia į prisijungimo puslapį.
+
+    Metodai:
+    - get: Atvaizduoja registracijos formą.
+    - post: Apdoroja registracijos formą ir, jei ji galioja, sukuria vartotoją bei nukreipia į prisijungimo puslapį.
+    """
     def get(self, request):
         form = UserCreationForm()
         return render(request, 'registration/register.html', {'form': form})
@@ -167,6 +207,16 @@ class RegisterView(View):
 
 @method_decorator(login_required, name='dispatch')
 class UserProfileView(View):
+    """
+    Vartotojo profilio atvaizdavimo klasė.
+
+    Užtikrina, kad tik prisijungę vartotojai gali pasiekti šį vaizdą.
+
+    GET užklausa atvaizduoja vartotojo profilio puslapį, kuriame rodomi vartotojo duomenys.
+
+    Metodai:
+    - get: Atvaizduoja vartotojo profilio puslapį su informaciją apie prisijungusį vartotoją.
+    """
     def get(self, request):
         return render(request, 'profile.html', {'user': request.user})
 
