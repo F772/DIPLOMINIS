@@ -5,20 +5,22 @@
 
 <form method="get">
     <label for="genre">Žanras:</label>
-    <select name="genre" id="genre">
+    <select name="genre">
         <option value="">Visi</option>
         {% for genre in genres %}
-        <option value="{{ genre.id }}" {% if genre.id|stringformat:"s" == selected_genre %}selected{% endif %}>{{ genre.name }}</option>
+        <option value="{{ genre.id }}" {% if genre.id|stringformat:"s" == request.GET.genre %}selected{% endif %}>
+            {{ genre.name }}
+        </option>
         {% endfor %}
     </select>
-
-    <button type="submit">Filtruoti</button>
 
     <label for="year">Metai:</label>
     <select name="year">
         <option value="">Visi</option>
         {% for year in years %}
-        <option value="{{ year }}" {% if year|stringformat:"s" == selected_year %}selected{% endif %}>{{ year }}</option>
+        <option value="{{ year }}" {% if year|stringformat:"s" == request.GET.year %}selected{% endif %}>
+            {{ year }}
+        </option>
         {% endfor %}
     </select>
 
@@ -31,9 +33,8 @@
         <div class="col">
             <a href="{% url 'movie_detail' movie.id %}">
                 <img src="{{ movie.image.url }}" alt="{{ movie.title }}" class="img-fluid" style="width: 100%; height: 250px; object-fit: contain;">
-                <!-- Filmo pavadinimas ir metai -->
                 <div class="text-center mt-2">
-                    <h6>{{ movie.title }} ({{ movie.year }})</h6>
+                    <h6>{{ movie.title }} ({{ movie.year }}) {{ movie.director }}</h6>
                 </div>
             </a>
         </div>

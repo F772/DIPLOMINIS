@@ -5,7 +5,7 @@ from django.utils.html import format_html
 
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
-    list_display = ('title', 'year', 'director', 'image_preview')  # Pridėta nuotraukų peržiūra
+    list_display = ('title', 'year', 'director', 'image_preview')
     search_fields = ('title', 'director__name')
     list_filter = ('year', 'genres')
 

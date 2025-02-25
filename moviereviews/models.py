@@ -3,6 +3,15 @@ from django.contrib.auth.models import User
 
 
 class Genre(models.Model):
+    """
+    Modelis, skirtas filmų žanrams saugoti.
+
+    Laukai:
+    - name: Žanro pavadinikmas (maksimalus ilgis - 100 simobiliai, unikalus).
+
+    Metodai:
+    - __str__(): Grąžina žanro pavadinimą kaip teksto atvaizdavimą.
+    """
     name = models.CharField(max_length=100, unique=True)
 
     def __str__(self):
@@ -10,6 +19,16 @@ class Genre(models.Model):
 
 
 class Director(models.Model):
+    """
+    Modelis, skirtas filmų režisieriams saugoti.
+
+    Laukai:
+    - name: Režisieriaus vardas ir pavardė (maksimalus ilgis – 255 simboliai).
+    - bio: Režisieriaus biografija (gali būti tuščia).
+
+    Metodai:
+    - __str__(): Grąžina režisieriaus vardą kaip teksto atvaizdavimą.
+    """
     name = models.CharField(max_length=255)
     bio = models.TextField(blank=True, null=True)
 
@@ -18,6 +37,22 @@ class Director(models.Model):
 
 
 class Movie(models.Model):
+    """
+    Modelis, skirtas filmų duomenims saugoti.
+
+    Laukai:
+    - title: Filmo pavadinimas (maksimalus ilgis – 255 simboliai).
+    - description: Filmo aprašymas.
+    - year: Filmo išleidimo metai.
+    - genres: Daugelio prie daugelio ryšys su žanrais (gali būti tuščias).
+    - director: Užsienio raktas į režisierių (gali būti tuščias, nustatomas kaip NULL pašalinus susijusį įrašą).
+    - imdb_id: IMDb identifikacinis numeris (unikalus, gali būti tuščias).
+    - image: Filmo plakato ar nuotraukos laukas (gali būti tuščias).
+
+    Metodai:
+    - display_genres(): Gražina pirmus tris filmo žanrus kaip eilutę.
+    - __str__(): Grąžina filmo pavadinimą kaip teksto atvaizdavimą.
+    """
     title = models.CharField(max_length=255)
     description = models.TextField()
     year = models.IntegerField()
@@ -35,6 +70,21 @@ class Movie(models.Model):
 
 
 class Review(models.Model):
+    """
+    Modelis, skirtas filmų apžvalgoms saugoti.
+
+    Laukai:
+    - user: Užsienio raktas į vartotoją, kuris parašė apžvalgą (susieta su User modeliu).
+    - movie: Užsienio raktas į filmą, kuriam skirta apžvalga (susieta su Movie modeliu).
+    - title: Apžvalgos pavadinimas (maksimalus ilgis – 255 simboliai).
+    - content: Apžvalgos turinys.
+    - rating: Įvertinimas nuo 1 iki 5 (pasirinkimų laukas).
+    - created_at: Apžvalgos sukūrimo data ir laikas (nustatomas automatiškai).
+    - approved: Laukas, nurodantis, ar apžvalga patvirtinta (numatytasis – `False`).
+
+    Metodai:
+    - __str__(): Grąžina apžvalgos pavadinimą kartu su vartotojo vardu kaip teksto atvaizdavimą.
+    """
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     title = models.CharField(max_length=255)
@@ -48,6 +98,18 @@ class Review(models.Model):
 
 
 class Comment(models.Model):
+    """
+    Modelis, skirtas apžvalgų komentarams saugoti.
+
+    Laukai:
+    - review: Užsienio raktas į apžvalgą, kuriai priklauso komentaras (susieta su Review modeliu).
+    - user: Užsienio raktas į vartotoją, kuris parašė komentarą (susieta su User modeliu).
+    - content: Komentaro turinys.
+    - created_at: Komentaro sukūrimo data ir laikas (nustatomas automatiškai).
+
+    Metodai:
+    - __str__(): Grąžina vartotojo vardą ir apžvalgos pavadinimą kaip teksto atvaizdavimą.
+    """
     review = models.ForeignKey('Review', related_name='comments', on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     content = models.TextField()
@@ -58,6 +120,22 @@ class Comment(models.Model):
 
 
 class Reaction(models.Model):
+    """
+    Modelis, skirtas apžvalgų reakcijoms (patinka/nepatinka) saugoti.
+
+    Laukai:
+    - LIKE, DISLIKE: Galimos reakcijų reikšmės.
+    - REACTION_CHOICES: Pasirinkimų sąrašas, leidžiantis pasirinkti tarp "Like" ir "Dislike".
+    - user: Užsienio raktas į vartotoją, kuris paliko reakciją (susieta su User modeliu).
+    - review: Užsienio raktas į apžvalgą, kuriai taikoma reakcija (susieta su Review modeliu).
+    - reaction_type: Reakcijos tipas ("like" arba "dislike").
+
+    Meta:
+    - unique_together: Užtikrina, kad vienas vartotojas gali palikti tik vieną reakciją tam pačiam atsiliepimui.
+
+    Metodai:
+    - __str__(): Grąžina vartotojo vardą, reakcijos tipą ir apžvalgos pavadinimą kaip teksto atvaizdavimą.
+    """
     LIKE = 'like'
     DISLIKE = 'dislike'
     REACTION_CHOICES = [

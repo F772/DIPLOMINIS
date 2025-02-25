@@ -12,11 +12,13 @@
                     <p>Įvertinimas: {{ review.rating }}/5 ⭐</p>
                     <p>{{ review.content }}</p>
                     <small>Paskelbta: {{ review.created_at }}</small>
+                    <p>Komentaras: {{ review.content }}</p>
                 </li>
             {% endfor %}
         </ul>
     {% else %}
         <p>Kol kas nėra apžvalgų.</p>
     {% endif %}
+
 </div>
 {% endblock %}
